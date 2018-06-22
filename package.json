@@ -1,0 +1,33 @@
+{
+  "name": "tandem-parser",
+  "version": "0.0.1",
+  "description": "A parser for X! tandem xml output files",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emptyport/tandem-parser.git"
+  },
+  "keywords": [
+    "chemistry",
+    "peptide",
+    "protein",
+    "proteomics",
+    "mass spec",
+    "tandem",
+    "parser"
+  ],
+  "author": "Michael Porter <michaelporter.chemistry@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emptyport/tandem-parser/issues"
+  },
+  "homepage": "https://github.com/emptyport/tandem-parser#readme",
+  "devDependencies": {
+    "fs": "0.0.1-security"
+  },
+  "dependencies": {
+    "peptide-spectrum-match": "^0.1.0",
+    "xml-js": "^1.6.4"
+  }
+}
