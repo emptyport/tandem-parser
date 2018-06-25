@@ -27,7 +27,7 @@
     "fs": "0.0.1-security"
   },
   "dependencies": {
-    "peptide-spectrum-match": "^0.1.0",
+    "peptide-spectrum-match": "^0.1.2",
     "xml-js": "^1.6.4"
   }
 }

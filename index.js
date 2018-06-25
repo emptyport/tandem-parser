@@ -1,12 +1,20 @@
 var xmlConverter = require('xml-js');
+var fs = require('fs');
 
 module.exports.parse = function(fileText) {
   let psmList = [];
 
-  var xmlDoc = xmlConverter.xml2json(fileText, {compact: false, spaces: 2});
+  var xmlDoc = xmlConverter.xml2json(fileText, {compact: true, spaces: 2});
   var xmlObj = JSON.parse(xmlDoc);
 
-  let idObjList = xmlObj.elements[1].elements;
+  let idObjList = xmlObj.bioml.group;
+  psmList = idObjList.map(extractInfo);
+
+  return psmList;
+};
+
+extractInfo = (idObj) => {
+
   let psm = {
     'sequence': '',
     'sequence_pre': '',
@@ -23,11 +31,9 @@ module.exports.parse = function(fileText) {
     'score': '',
     'expect': '',
     'is_decoy': '',
-    'rank': ''
+    'rank': '',
+    'search_engine': 'tandem'
   };
-  console.log(idObjList[0]);
-  console.log(idObjList[0].elements[0]);
 
-
-  return psmList;
-};
+  return psm;
+}
