@@ -10,12 +10,12 @@ module.exports.parse = function(fileText) {
   var xmlObj = JSON.parse(xmlDoc);
 
   let idObjList = xmlObj.bioml.group;
-  
-  idObjList = idObjList.filter(function(idObj) {
-    return idObj['_attributes']['type'] === 'model';
-  });
 
-  psmList = idObjList.map(extractInfo);
+  psmList = idObjList
+    .filter(function(idObj) {
+      return idObj['_attributes']['type'] === 'model';
+    })
+    .map(extractInfo);
 
   return psmList;
 };
@@ -24,10 +24,18 @@ extractInfo = (idObj) => {
   let attributes = idObj['_attributes'];
   let protein = idObj['protein'];
   let group = idObj['group'];
+  
+  var best_match;
+  if(Array.isArray(protein)) {
+    best_match = protein[0];
+  }
+  else {
+    best_match = protein;
+  }
+
+  let peptide = best_match['peptide'];
 
   var scan_title = '';
-
-  
   group.forEach(function(g) {
     if(g['_attributes']['type'] === 'fragment ion mass spectrum') {
       scan_title = g['note']['_text'];
@@ -35,22 +43,22 @@ extractInfo = (idObj) => {
   });
 
   let psm = {
-    'sequence': '',
-    'sequence_pre': '',
-    'sequence_post': '',
+    'sequence': peptide['domain']['_attributes']['seq'],
+    'sequence_pre': peptide['domain']['_attributes']['pre'][3],
+    'sequence_post': peptide['domain']['_attributes']['post'][0],
     'charge': parseInt(attributes['z']),
     'retention_time': parseFloat(attributes['rt']),
     'precursor_mass': parseFloat(attributes['mh']) - PROTON,
-    'mass_err': '',
+    'mass_err': parseFloat(peptide['domain']['_attributes']['delta']),
     'theoretical_mass': '',
     'modifications': '',
     'filename': '',
     'scan_title': scan_title,
     'scan_id': attributes['id'],
-    'score': '',
+    'score': parseFloat(peptide['domain']['_attributes']['hyperscore']),
     'expect': parseFloat(attributes['expect']),
     'is_decoy': '',
-    'rank': '',
+    'rank': 1,
     'search_engine': 'tandem'
   };
 
