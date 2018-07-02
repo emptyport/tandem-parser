@@ -10,17 +10,21 @@ module.exports.parse = function(fileText) {
   var xmlObj = JSON.parse(xmlDoc);
 
   let idObjList = xmlObj.bioml.group;
+  let modelString = xmlObj.bioml._attributes.label;
+  let filename = modelString.match(/'([^']+)'/)[1];
 
   psmList = idObjList
     .filter(function(idObj) {
       return idObj['_attributes']['type'] === 'model';
     })
-    .map(extractInfo);
+    .map(function(idObj) {
+      return extractInfo(idObj, filename);}
+    );
 
   return psmList;
 };
 
-extractInfo = (idObj) => {
+extractInfo = (idObj, filename) => {
   let attributes = idObj['_attributes'];
   let protein = idObj['protein'];
   let group = idObj['group'];
@@ -35,9 +39,24 @@ extractInfo = (idObj) => {
 
   let peptide = best_match['peptide'];
 
+  var modifications = {};
+  if(peptide.domain.hasOwnProperty('aa')) {
+    let mods = peptide.domain.aa;
+    if(Array.isArray(mods)) {
+
+    }
+    else {
+      modifications = {
+        'residue': mods._attributes.type,
+        'mass': mods._attributes.modified,
+        'position': parseInt(mods._attributes.at) - parseInt(peptide.domain._attributes.start)
+      };
+    }
+  }
+
   var scan_title = '';
   group.forEach(function(g) {
-    if(g['_attributes']['type'] === 'fragment ion mass spectrum') {
+    if(g['_attributes']['label'] === 'fragment ion mass spectrum') {
       scan_title = g['note']['_text'];
     }
   });
@@ -50,9 +69,9 @@ extractInfo = (idObj) => {
     'retention_time': parseFloat(attributes['rt']),
     'precursor_mass': parseFloat(attributes['mh']) - PROTON,
     'mass_err': parseFloat(peptide['domain']['_attributes']['delta']),
-    'theoretical_mass': '',
-    'modifications': '',
-    'filename': '',
+    'theoretical_mass': parseFloat(attributes['mh']) - PROTON - parseFloat(peptide['domain']['_attributes']['delta']),
+    'modifications': modifications,
+    'filename': filename,
     'scan_title': scan_title,
     'scan_id': attributes['id'],
     'score': parseFloat(peptide['domain']['_attributes']['hyperscore']),
@@ -61,6 +80,9 @@ extractInfo = (idObj) => {
     'rank': 1,
     'search_engine': 'tandem'
   };
+
+  console.log(psm);
+  console.log(modifications);
 
   return psm;
 }
