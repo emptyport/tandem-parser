@@ -1,9 +1,10 @@
 var xmlConverter = require('xml-js');
 var fs = require('fs');
+var peptideSpectrumMatch = require('peptide-spectrum-match');
 
 const PROTON = 1.007276466812;
 
-module.exports.parse = function(fileText) {
+module.exports.parse = function(fileText, decoyTag=undefined) {
   let psmList = [];
 
   var xmlDoc = xmlConverter.xml2json(fileText, {compact: true, spaces: 2});
@@ -18,13 +19,13 @@ module.exports.parse = function(fileText) {
       return idObj['_attributes']['type'] === 'model';
     })
     .map(function(idObj) {
-      return extractInfo(idObj, filename);}
+      return extractInfo(idObj, filename, decoyTag);}
     );
 
   return psmList;
 };
 
-extractInfo = (idObj, filename) => {
+extractInfo = (idObj, filename, decoyTag) => {
   let attributes = idObj['_attributes'];
   let protein = idObj['protein'];
   let group = idObj['group'];
@@ -39,18 +40,26 @@ extractInfo = (idObj, filename) => {
 
   let peptide = best_match['peptide'];
 
-  var modifications = {};
+  var modifications = [];
   if(peptide.domain.hasOwnProperty('aa')) {
     let mods = peptide.domain.aa;
     if(Array.isArray(mods)) {
-
+      mods.forEach(function(mod) {
+        modifications.push({
+          'residue': mod._attributes.type,
+          'mass': mod._attributes.modified,
+          'position': parseInt(mod._attributes.at) - parseInt(peptide.domain._attributes.start)
+        });
+      });
     }
     else {
-      modifications = {
-        'residue': mods._attributes.type,
-        'mass': mods._attributes.modified,
-        'position': parseInt(mods._attributes.at) - parseInt(peptide.domain._attributes.start)
-      };
+      modifications = [
+        {
+          'residue': mods._attributes.type,
+          'mass': mods._attributes.modified,
+          'position': parseInt(mods._attributes.at) - parseInt(peptide.domain._attributes.start)
+        }
+      ];
     }
   }
 
@@ -61,10 +70,17 @@ extractInfo = (idObj, filename) => {
     }
   });
 
+  var isDecoy = false;
+  if(attributes['label'].includes(decoyTag)) {
+    isDecoy = true;
+  }
+
   let psm = {
     'sequence': peptide['domain']['_attributes']['seq'],
     'sequence_pre': peptide['domain']['_attributes']['pre'][3],
     'sequence_post': peptide['domain']['_attributes']['post'][0],
+    'missed_cleavages': 0,
+    'protein': attributes['label'],
     'charge': parseInt(attributes['z']),
     'retention_time': parseFloat(attributes['rt']),
     'precursor_mass': parseFloat(attributes['mh']) - PROTON,
@@ -76,13 +92,12 @@ extractInfo = (idObj, filename) => {
     'scan_id': attributes['id'],
     'score': parseFloat(peptide['domain']['_attributes']['hyperscore']),
     'expect': parseFloat(attributes['expect']),
-    'is_decoy': '',
+    'is_decoy': isDecoy,
     'rank': 1,
     'search_engine': 'tandem'
   };
 
-  console.log(psm);
-  console.log(modifications);
+  var psmObj = new peptideSpectrumMatch(psm);
 
-  return psm;
+  return psmObj;
 }

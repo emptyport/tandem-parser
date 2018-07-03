@@ -7,5 +7,5 @@ fs.readFile(filename, 'utf8', function(err, data) {
     if (err) throw err;
 
     psmList = tandem.parse(data);
-    //console.log(psmList);
+    console.log(psmList);
 });
