@@ -6,6 +6,6 @@ var filename = "output.xml";
 fs.readFile(filename, 'utf8', function(err, data) {
     if (err) throw err;
 
-    psmList = tandem.parse(data);
+    let psmList = tandem.parse(data);
     console.log(psmList);
 });

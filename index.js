@@ -66,7 +66,7 @@ extractInfo = (idObj, filename, decoyTag) => {
   var scan_title = '';
   group.forEach(function(g) {
     if(g['_attributes']['label'] === 'fragment ion mass spectrum') {
-      scan_title = g['note']['_text'];
+      scan_title = g['note']['_text'].trim();
     }
   });
 
@@ -79,7 +79,7 @@ extractInfo = (idObj, filename, decoyTag) => {
     'sequence': peptide['domain']['_attributes']['seq'],
     'sequence_pre': peptide['domain']['_attributes']['pre'][3],
     'sequence_post': peptide['domain']['_attributes']['post'][0],
-    'missed_cleavages': 0,
+    'missed_cleavages': parseInt(peptide['domain']['_attributes']['missed_cleavages']),
     'protein': attributes['label'],
     'charge': parseInt(attributes['z']),
     'retention_time': parseFloat(attributes['rt']),

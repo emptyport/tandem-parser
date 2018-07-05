@@ -1,9 +1,11 @@
 {
   "name": "tandem-parser",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A parser for X! tandem xml output files",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "node ./test/test-index.js | tap-spec"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/emptyport/tandem-parser.git"
@@ -24,7 +26,9 @@
   },
   "homepage": "https://github.com/emptyport/tandem-parser#readme",
   "devDependencies": {
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.9.1"
   },
   "dependencies": {
     "peptide-spectrum-match": "^0.1.4",
