@@ -51,6 +51,18 @@ Output:
 
 All spectra are saved as [peptide-spectrum-match](https://www.npmjs.com/package/peptide-spectrum-match) objects. In this case the `score` of the peptide-spectrum-match object will be X! tandem's hyperscore.
 
+---
+#### parse(xmlString, decoyTag=undefined)
+This is the only function in this module. The first argument is the XML string that you wish to parse. The second, optional argument is the text tag that indicates a sequence is a decoy. The parser will look in the description line of the FASTA entry to determine whether or not it is a decoy. In the below FASTA example, a decoy tag of "reversed_decoy" would match the first but not the second entry. Any matches to the first sequence will be considered a decoy when the file is parsed.
+
+> \>sequence-1_reversed_decoy
+>
+> ASDFGHKL
+> 
+> \>sequence-2
+> 
+> ELVISLIVES
+
 ## Tests
 You can run `npm test` to run the tests after installing the development dependencies.
 

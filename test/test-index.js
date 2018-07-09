@@ -8,7 +8,7 @@ test('Basic parsing', function(t) {
   fs.readFile(filename, 'utf8', function(err, data) {
     if (err) throw err;
 
-    let psmList = tandem.parse(data);
+    let psmList = tandem.parse(data, 'decoy');
     let spectrumID = psmList[0];
 
     t.equal(spectrumID['search_engine'], 'tandem', 'Search engine is correct');
@@ -16,7 +16,7 @@ test('Basic parsing', function(t) {
     t.equal(spectrumID['sequence_pre'], 'R', 'Sequence pre is correct');
     t.equal(spectrumID['sequence_post'], 'D', 'Sequence post is correct');
     t.equal(spectrumID['missed_cleavages'], 0, 'Missed cleavages is correct');
-    t.equal(spectrumID['protein'], 'YGR254W', 'Protein is correct');
+    t.equal(spectrumID['protein'], 'YGR254W_decoy', 'Protein is correct');
     t.equal(spectrumID['charge'], 1, 'Charge is correct');
     t.equal(spectrumID['retention_time'], 10.2, 'Retention time is correct');
     t.equal(spectrumID['precursor_mass'], 1839.9187235331879, 'Precursor mass is correct');
@@ -28,7 +28,7 @@ test('Basic parsing', function(t) {
     t.equal(spectrumID['scan_id'], '581', 'Scan ID is correct');
     t.equal(spectrumID['score'], 66.8, 'Hyperscore is correct');
     t.equal(spectrumID['expect'], 3.3e-12, 'Expect value is correct');
-    t.equal(spectrumID['is_decoy'], false, 'Not a decoy');
+    t.equal(spectrumID['is_decoy'], true, 'Is a decoy');
     t.equal(spectrumID['rank'], 1, 'Rank is correct');
     t.end();
   });

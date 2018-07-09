@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="tandem-style.xsl"?>
 <bioml xmlns:GAML="http://www.bioml.com/gaml/" label="models from 'test_spectra.mgf'">
-<group id="581" mh="1840.926000" z="1" rt="10.2" expect="3.3e-12" label="YGR254W" type="model" sumI="4.69" maxI="9117.79" fI="91.1779" act="0" >
+<group id="581" mh="1840.926000" z="1" rt="10.2" expect="3.3e-12" label="YGR254W_decoy" type="model" sumI="4.69" maxI="9117.79" fI="91.1779" act="0" >
 <protein expect="-114.6" id="581.1" uid="2301" label="YGR254W" sumI="5.86" >
 <note label="description">YGR254W</note>
 <file type="peptide" URL="../fasta/scd.fasta.pro"/>

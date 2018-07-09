@@ -17,7 +17,8 @@
     "proteomics",
     "mass spec",
     "tandem",
-    "parser"
+    "parser",
+    "X! tandem"
   ],
   "author": "Michael Porter <michaelporter.chemistry@gmail.com>",
   "license": "MIT",
@@ -31,7 +32,7 @@
     "tape": "^4.9.1"
   },
   "dependencies": {
-    "peptide-spectrum-match": "^0.1.4",
+    "peptide-spectrum-match": "^1.0.0",
     "xml-js": "^1.6.7"
   }
 }

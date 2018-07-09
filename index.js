@@ -1,5 +1,4 @@
 var xmlConverter = require('xml-js');
-var fs = require('fs');
 var peptideSpectrumMatch = require('peptide-spectrum-match');
 
 const PROTON = 1.007276466812;

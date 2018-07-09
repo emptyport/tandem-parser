@@ -8,4 +8,6 @@ fs.readFile(filename, 'utf8', function(err, data) {
 
     let psmList = tandem.parse(data);
     console.log(psmList);
+    console.log(psmList[8].getHeader());
+    console.log(psmList[8].getDelimited());
 });
