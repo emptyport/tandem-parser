@@ -3,6 +3,8 @@ A parser for the output of the [X! tandem](https://www.thegpm.org/tandem/) pepti
 
 > This module works correctly in the limited cases I've tested it in, but it should be considered in a beta state until it's been proven against more input files.
 
+> The peptide-spectrum-match module is also under active development, so there may be changes in the objects returned by the parser.
+
 ## Installation
 npm install tandem-parser --save
 
@@ -41,7 +43,8 @@ Output:
         scan_title: 'Label: W545, Spot_Id: 158779, Peak_List_Id: 184473, MSMS Job_Run_Id: 14047, Comment:',
         scan_id: '660',
         search_engine: 'tandem',
-        score: 67.1,
+        hyperscore: 67.1,
+        nextscore: 14.1,
         expect: 9e-13,
         is_decoy: false,
         rank: 1 

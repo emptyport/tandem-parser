@@ -26,7 +26,8 @@ test('Basic parsing', function(t) {
     t.equal(spectrumID['filename'], 'test_spectra.mgf', 'Spectra filename is correct');
     t.equal(spectrumID['scan_title'], 'Label: W933, Spot_Id: 159969, Peak_List_Id: 184764, MSMS Job_Run_Id: 14047, Comment:', 'Scan title is correct');
     t.equal(spectrumID['scan_id'], '581', 'Scan ID is correct');
-    t.equal(spectrumID['score'], 66.8, 'Hyperscore is correct');
+    t.equal(spectrumID['hyperscore'], 66.8, 'Hyperscore is correct');
+    t.equal(spectrumID['nextscore'], 14.1, 'Nextscore is correct');
     t.equal(spectrumID['expect'], 3.3e-12, 'Expect value is correct');
     t.equal(spectrumID['is_decoy'], true, 'Is a decoy');
     t.equal(spectrumID['rank'], 1, 'Rank is correct');

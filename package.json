@@ -1,6 +1,6 @@
 {
   "name": "tandem-parser",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A parser for X! tandem xml output files",
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,7 @@
     "tape": "^4.9.1"
   },
   "dependencies": {
-    "peptide-spectrum-match": "^1.0.0",
+    "peptide-spectrum-match": "^2.0.0",
     "xml-js": "^1.6.7"
   }
 }
